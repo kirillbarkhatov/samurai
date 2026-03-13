@@ -1,0 +1,10 @@
+services:
+  samurai:
+    build: .
+    container_name: samurai
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./config.toml:/app/config.toml:ro
+      - ./db.sqlite:/app/db.sqlite
