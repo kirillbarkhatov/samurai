@@ -246,6 +246,9 @@ def apply_env_overrides(config: Config) -> Config:
         config.bot.owner = int(os.environ["BOT_OWNER"])
     if os.environ.get("BOT_LOCALE"):
         config.locale.default = os.environ["BOT_LOCALE"]
+
+    if os.environ.get("DB_URL"):
+        config.db.url = os.environ["DB_URL"]
     
     # groups - now supports comma-separated lists
     groups_changed = False

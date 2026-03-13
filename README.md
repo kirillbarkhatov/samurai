@@ -172,31 +172,39 @@ docker run --env-file .env samurai-bot
 
 ### Database Initialization
 
-The `db_init.py` script can be used to create or recreate database tables.
-
-⚠️ **WARNING**: This script will **DROP ALL DATA** in the tables!  
-Make sure to backup first if running on an existing database.
+`db_init.py` supports safe and destructive modes:
 
 ```bash
-# 1. Open db_init.py and comment out or delete this line:
-#    exit("COMMENT THIS LINE IN ORDER TO RE-INIT DATABASE TABLES")
-
-# 2. Run the script
+# Safe: only create missing tables
 python db_init.py
 
-# 3. Uncomment the exit() line again to prevent accidental runs or just delete this file after usage
+# Destructive: drop all tables and recreate
+python db_init.py --reset --yes
 ```
 
-Use this script **ONLY** when:
-- Setting up the bot for the first time
-- Migrating to a new database
-- Resetting all data *(development only)*
+For SQLite paths, the script auto-creates parent directories and DB file.
 
 ### Docker
 
 ```bash
 docker build -t samurai-bot .
 docker run -d --name samurai-bot -v $(pwd)/config.toml:/app/config.toml samurai-bot
+```
+
+### Docker Compose
+
+`docker-compose.yml` stores SQLite in a Docker named volume (`samurai_data`) and
+sets `DB_URL` automatically by default:
+
+```bash
+docker compose up -d
+docker compose exec samurai python db_init.py
+```
+
+Reset DB in Docker (destructive):
+
+```bash
+docker compose exec samurai python db_init.py --reset --yes
 ```
 
 ## RAM usage

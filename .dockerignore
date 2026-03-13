@@ -1,0 +1,19 @@
+.git
+.gitignore
+.idea
+.vscode
+.venv
+venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Local runtime data
+data
+db.sqlite
+*.db
+*.sqlite
+
+# Large local model artifact (optional at runtime)
+ruspam_model/torch/model.safetensors
